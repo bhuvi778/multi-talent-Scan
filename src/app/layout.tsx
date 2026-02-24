@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "OzoSTARS – Loyalty & Rewards",
   description: "Scan QR codes, earn loyalty points, and redeem amazing rewards. India's leading loyalty platform by Ozone Overseas.",
-  themeColor: "#1c3f6e",
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#1c3f6e",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
