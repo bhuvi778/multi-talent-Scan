@@ -7,7 +7,7 @@ export const MOCK_TENANTS: TenantConfig[] = [
     {
         id: 'tenant-001',
         name: 'AvoPay',
-        subdomain: 'AvoPay',
+        subdomain: 'avopay',
         logo: '⚡',
         logoUrl: 'https://ui-avatars.com/api/?name=AvoPay&background=6366f1&color=fff&size=128&bold=true&font-size=0.4&rounded=true',
         primaryColor: '#6366f1',
@@ -99,7 +99,7 @@ export const useAuthStore = create<AuthState>()(
             logout: () => set({ user: null, isLoggedIn: false, otpSent: false, phone: '' }),
             updateUser: (updates) => set((s) => ({ user: s.user ? { ...s.user, ...updates } : null })),
         }),
-        { name: 'loyalty-auth', partialize: (s) => ({ user: s.user, isLoggedIn: s.isLoggedIn, tenant: s.tenant }) }
+        { name: 'loyalty-auth-v2', partialize: (s) => ({ user: s.user, isLoggedIn: s.isLoggedIn, tenant: s.tenant }) }
     )
 );
 
@@ -226,6 +226,6 @@ export const useTenantStore = create<TenantStoreState>()(
             removeTenant: (id) => set(s => ({ tenants: s.tenants.filter(t => t.id !== id) })),
             getTenantBySubdomain: (sub) => get().tenants.find(t => t.subdomain === sub),
         }),
-        { name: 'loyalty-tenants' }
+        { name: 'loyalty-tenants-v2' }
     )
 );
