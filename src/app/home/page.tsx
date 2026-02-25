@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import {
-    Menu, X, Bell, QrCode, Star, ChevronRight, ChevronLeft,
+    Menu, X, Bell, QrCode, ChevronRight, ChevronLeft,
     User, History, ShoppingBag, Package, Shield, Phone,
-    LogOut, Home, Gift, Zap, Search
+    LogOut, Home, Gift, Zap, Search, Pencil, CheckCircle, Clock, AlertCircle, Globe
 } from 'lucide-react';
 
 const NAVY = '#6366f1';
@@ -17,14 +17,16 @@ const TIER_CLR: Record<string, string> = {
 };
 
 const SIDEBAR_LINKS = [
-    { Icon: Home, label: 'Home', path: '/home' },
-    { Icon: User, label: 'My Profile', path: '/profile' },
-    { Icon: History, label: 'My Statement', path: '/history' },
-    { Icon: Package, label: 'My Orders', path: '/orders' },
-    { Icon: ShoppingBag, label: 'Product Catalogue', path: '/cart' },
-    { Icon: Gift, label: 'Redeem Rewards', path: '/redeem' },
-    { Icon: Shield, label: 'Asli vs Nakli', path: '/asli-vs-nakli' },
-    { Icon: Phone, label: 'Contact Us', path: '/contact' },
+    { Icon: Home, label: 'Home', path: '/home', iconBg: '#eef2ff', iconColor: '#6366f1' },
+    { Icon: User, label: 'My Profile', path: '/profile', iconBg: '#eef2ff', iconColor: '#6366f1' },
+    { Icon: Pencil, label: 'Edit Profile', path: '/edit-profile', iconBg: '#f0fdf4', iconColor: '#059669' },
+    { Icon: Shield, label: 'KYC Verification', path: '/kyc', iconBg: '#fef3c7', iconColor: '#d97706', isKyc: true },
+    { Icon: History, label: 'My Statement', path: '/history', iconBg: '#eef2ff', iconColor: '#6366f1' },
+    { Icon: Package, label: 'My Orders', path: '/orders', iconBg: '#eef2ff', iconColor: '#6366f1' },
+    { Icon: ShoppingBag, label: 'Product Catalogue', path: '/cart', iconBg: '#eef2ff', iconColor: '#6366f1' },
+    { Icon: Gift, label: 'Redeem Rewards', path: '/redeem', iconBg: '#fdf4ff', iconColor: '#a855f7' },
+    { Icon: Shield, label: 'Asli vs Nakli', path: '/asli-vs-nakli', iconBg: '#fef2f2', iconColor: '#dc2626' },
+    { Icon: Phone, label: 'Contact Us', path: '/contact', iconBg: '#ecfdf5', iconColor: '#059669' },
 ];
 
 const DEALS = [
@@ -152,16 +154,25 @@ export default function HomePage() {
                     </div>
                 </div>
                 <nav style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
-                    {SIDEBAR_LINKS.map(({ Icon, label, path }) => (
-                        <button key={path} onClick={() => nav(path)}
-                            style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 14, padding: '13px 20px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 10, background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                <Icon size={17} color={NAVY} />
-                            </div>
-                            <span style={{ fontSize: 14, fontWeight: 600, color: '#1a2332', flex: 1 }}>{label}</span>
-                            <ChevronRight size={14} color="#cbd5e1" />
-                        </button>
-                    ))}
+                    {SIDEBAR_LINKS.map(({ Icon, label, path, iconBg, iconColor, isKyc }) => {
+                        const kycSt = user.kycStatus || 'not_started';
+                        const kycBadge = isKyc ? (
+                            kycSt === 'verified' ? <CheckCircle size={14} color="#059669" /> :
+                                kycSt === 'pending' ? <Clock size={14} color="#2563eb" /> :
+                                    kycSt === 'rejected' ? <AlertCircle size={14} color="#dc2626" /> :
+                                        <span style={{ fontSize: 9, fontWeight: 800, background: '#fef9c3', color: '#d97706', borderRadius: 6, padding: '2px 6px', border: '1px solid #fde68a' }}>PENDING</span>
+                        ) : <ChevronRight size={14} color="#cbd5e1" />;
+                        return (
+                            <button key={path} onClick={() => nav(path)}
+                                style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 14, padding: '12px 20px', background: isKyc && kycSt === 'not_started' ? '#fffbeb' : 'none', border: 'none', borderLeft: isKyc && kycSt === 'not_started' ? '3px solid #f59e0b' : '3px solid transparent', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', transition: 'background 0.15s' }}>
+                                <div style={{ width: 36, height: 36, borderRadius: 10, background: iconBg || '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                    <Icon size={17} color={iconColor || NAVY} />
+                                </div>
+                                <span style={{ fontSize: 14, fontWeight: isKyc ? 700 : 600, color: isKyc && kycSt === 'not_started' ? '#d97706' : '#1a2332', flex: 1 }}>{label}</span>
+                                {kycBadge}
+                            </button>
+                        );
+                    })}
                 </nav>
                 <div style={{ padding: '12px 16px 28px', borderTop: '1px solid #f1f5f9' }}>
                     <button onClick={() => { setSidebarOpen(false); logout(); router.replace('/login'); }}
