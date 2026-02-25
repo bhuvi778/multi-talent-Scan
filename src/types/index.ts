@@ -3,7 +3,8 @@ export interface TenantConfig {
   id: string;
   name: string;
   subdomain: string;
-  logo: string;
+  logo: string;          // emoji fallback
+  logoUrl?: string;      // actual image URL (preferred)
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;

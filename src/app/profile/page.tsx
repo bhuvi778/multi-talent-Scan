@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
-import { ArrowLeft, Languages, Bell, QrCode, Star } from 'lucide-react';
+import { ArrowLeft, Languages, Bell, QrCode } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 const TIERS = [
     { name: 'Silver', color: '#94a3b8', min: 0, borderColor: '#cbd5e1' },
@@ -19,7 +19,7 @@ const TIER_COLORS: Record<string, string> = {
 
 export default function ProfilePage() {
     const router = useRouter();
-    const { user, isLoggedIn, logout } = useAuthStore();
+    const { user, isLoggedIn, logout, tenant } = useAuthStore();
     const [activeTab, setActiveTab] = useState<'MEMBERSHIP' | 'MESSAGES' | 'POINTS' | 'REWARDS'>('MEMBERSHIP');
 
     if (!isLoggedIn || !user) { router.replace('/login'); return null; }
@@ -71,13 +71,23 @@ export default function ProfilePage() {
                         <div style={{ background: '#fff', borderRadius: 10, padding: 6, width: 60, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <QrCode size={44} color={NAVY} strokeWidth={1.5} />
                         </div>
-                        {/* Logo */}
+                        {/* Tenant logo */}
                         <div style={{ background: '#fff', borderRadius: 12, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <div style={{ width: 30, height: 30, borderRadius: 8, background: NAVY, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Star size={14} color="#fff" fill="#fff" />
-                            </div>
+                            {tenant.logoUrl ? (
+                                <img
+                                    src={tenant.logoUrl}
+                                    alt={tenant.name}
+                                    style={{ width: 36, height: 36, borderRadius: 10, objectFit: 'cover' }}
+                                />
+                            ) : (
+                                <div style={{ width: 36, height: 36, borderRadius: 10, background: tenant.primaryColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <span style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>
+                                        {tenant.name.slice(0, 2).toUpperCase()}
+                                    </span>
+                                </div>
+                            )}
                             <div>
-                                <p style={{ fontSize: 11, fontWeight: 900, color: NAVY, margin: 0, letterSpacing: '-0.2px' }}>OzoSTARS</p>
+                                <p style={{ fontSize: 11, fontWeight: 900, color: tenant.primaryColor, margin: 0, letterSpacing: '-0.2px' }}>{tenant.name}</p>
                                 <p style={{ fontSize: 8, color: '#64748b', margin: 0 }}>एक पहल, बेहतरी के साथ</p>
                             </div>
                         </div>
@@ -91,11 +101,6 @@ export default function ProfilePage() {
                             <div>
                                 <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', margin: '0 0 2px' }}>Points:</p>
                                 <p style={{ fontSize: 22, fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.5px' }}>{user.totalPoints.toLocaleString('en-IN')}</p>
-                            </div>
-                            {/* Paytm / mloyal badge */}
-                            <div style={{ background: '#fff', borderRadius: 8, padding: '6px 10px' }}>
-                                <p style={{ fontSize: 12, fontWeight: 800, color: '#00baf2', margin: 0, letterSpacing: '-0.3px' }}>paytm</p>
-                                <p style={{ fontSize: 10, fontWeight: 700, color: '#64748b', margin: 0 }}>m'loyal</p>
                             </div>
                         </div>
                     </div>

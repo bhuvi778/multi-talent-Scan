@@ -25,7 +25,7 @@ export default function LandingPage() {
   useEffect(() => { if (isLoggedIn) router.replace('/home'); }, [isLoggedIn, router]);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Inter','Segoe UI',sans-serif" }}>
 
       {/* ── NAV ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(255,255,255,0.97)', borderBottom: '1px solid #e2e8f0', backdropFilter: 'blur(12px)', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '100%' }}>
@@ -33,7 +33,7 @@ export default function LandingPage() {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg,#6366f1,#4f46e5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Star size={18} color="#fff" fill="#fff" />
           </div>
-          <span style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.5px' }}>RewardsPro</span>
+          <span style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.5px' }}>AvoPay</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <button onClick={() => router.push('/cashback')} style={{ padding: '8px 16px', background: '#f1f5f9', border: 'none', borderRadius: 10, fontSize: 13, fontWeight: 600, color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -51,7 +51,7 @@ export default function LandingPage() {
         {/* Pill badge */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#eef2ff', border: '1px solid #c7d2fe', borderRadius: 999, padding: '6px 14px', marginBottom: 28 }}>
           <Zap size={13} color="#6366f1" fill="#6366f1" />
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#6366f1' }}>India&apos;s #1 Loyalty Cashback Platform</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#6366f1' }}>India #1 Loyalty Cashback Platform</span>
         </div>
 
         <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 900, color: '#0f172a', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 20 }}>
@@ -115,7 +115,7 @@ export default function LandingPage() {
       {/* ── FEATURES ── */}
       <section style={{ maxWidth: 960, margin: '0 auto', padding: '72px 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <h2 style={{ fontSize: 36, fontWeight: 800, color: '#0f172a', margin: '0 0 12px', letterSpacing: '-1px' }}>Why RewardsPro?</h2>
+          <h2 style={{ fontSize: 36, fontWeight: 800, color: '#0f172a', margin: '0 0 12px', letterSpacing: '-1px' }}>Why AvoPay?</h2>
           <p style={{ fontSize: 16, color: '#64748b', margin: 0 }}>Everything you need to earn and redeem rewards effortlessly</p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16 }}>
@@ -177,9 +177,9 @@ export default function LandingPage() {
           <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Star size={14} color="#fff" fill="#fff" />
           </div>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>RewardsPro</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>AvoPay</span>
         </div>
-        <p style={{ fontSize: 13, color: '#94a3b8', margin: 0 }}>© 2025 RewardsPro. All rights reserved.</p>
+        <p style={{ fontSize: 13, color: '#94a3b8', margin: 0 }}>© 2026 AvoPay. All rights reserved.</p>
         <div style={{ display: 'flex', gap: 20 }}>
           {['Privacy Policy', 'Terms', 'Contact'].map(l => (
             <span key={l} style={{ fontSize: 13, color: '#64748b', cursor: 'pointer', fontWeight: 500 }}>{l}</span>

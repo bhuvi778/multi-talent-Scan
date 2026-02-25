@@ -5,7 +5,7 @@ import { useAuthStore, useCartStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, ShoppingCart, SlidersHorizontal, Check } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 const PRODUCTS = [
     { id: 'p1', name: 'Hot Water Bottle', mrp: 450, pts: 1030, image: '🧴', category: 'Health' },
@@ -87,7 +87,7 @@ export default function CartPage() {
                                 <div style={{ marginTop: 4 }}>
                                     <p style={{ fontSize: 11, color: '#64748b', margin: '0 0 2px' }}>MRP: <span style={{ textDecoration: 'line-through' }}>₹{product.mrp.toLocaleString()}</span></p>
                                     <p style={{ fontSize: 12, fontWeight: 700, color: NAVY, margin: 0 }}>
-                                        Reward Price: <span style={{ color: '#1c3f6e' }}>Pt. {product.pts.toLocaleString()}</span>
+                                        Reward Price: <span style={{ color: '#6366f1' }}>Pt. {product.pts.toLocaleString()}</span>
                                     </p>
                                 </div>
                                 <button onClick={() => handleAdd(product)}

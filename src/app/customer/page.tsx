@@ -201,7 +201,7 @@ export default function CustomerPage() {
                         <div style={{ textAlign: 'center', marginBottom: 24, paddingTop: 20 }}>
                             <div style={{ fontSize: 56, marginBottom: 12, animation: 'bounce-in 0.5s ease' }}>🎉</div>
                             <h2 style={{ fontSize: 24, fontWeight: 800, color: 'white', marginBottom: 6 }}>Product Verified!</h2>
-                            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>You&apos;re eligible for instant cashback</p>
+                            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>You are eligible for instant cashback</p>
                         </div>
 
                         {/* Product card */}

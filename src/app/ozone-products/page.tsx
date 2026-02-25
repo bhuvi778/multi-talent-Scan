@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, ChevronRight, Play, ShoppingCart } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 const CATEGORIES = ['All', 'Door Closers', 'Floor Springs', 'Hinges', 'Locks', 'Handles'];
 const SBUS = ['All SBUs', 'Architectural Hardware', 'Glass Fittings', 'Ozone Smart'];

@@ -5,7 +5,7 @@ import { useAuthStore, useHistoryStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, ChevronRight, SlidersHorizontal, Star, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 export default function HistoryPage() {
     const router = useRouter();

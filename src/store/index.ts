@@ -6,9 +6,10 @@ import { persist } from 'zustand/middleware';
 export const MOCK_TENANTS: TenantConfig[] = [
     {
         id: 'tenant-001',
-        name: 'RewardsPro',
-        subdomain: 'rewardspro',
-        logo: '🏆',
+        name: 'AvoPay',
+        subdomain: 'avopay',
+        logo: '⚡',
+        logoUrl: 'https://ui-avatars.com/api/?name=AvoPay&background=6366f1&color=fff&size=128&bold=true&font-size=0.4&rounded=true',
         primaryColor: '#6366f1',
         secondaryColor: '#a855f7',
         accentColor: '#10b981',
@@ -23,7 +24,8 @@ export const MOCK_TENANTS: TenantConfig[] = [
         id: 'tenant-002',
         name: 'LoyalMart',
         subdomain: 'loyalmart',
-        logo: '🛍️',
+        logo: '🛒️',
+        logoUrl: 'https://ui-avatars.com/api/?name=LoyalMart&background=f59e0b&color=fff&size=128&bold=true&font-size=0.4&rounded=true',
         primaryColor: '#f59e0b',
         secondaryColor: '#ef4444',
         accentColor: '#10b981',
@@ -205,5 +207,25 @@ export const useCashbackStore = create<CashbackState>()(
             })),
         }),
         { name: 'loyalty-cashback' }
+    )
+);
+
+// ===== GLOBAL TENANT STORE (persisted — admin creates tenants here) =====
+interface TenantStoreState {
+    tenants: TenantConfig[];
+    addTenant: (t: TenantConfig) => void;
+    removeTenant: (id: string) => void;
+    getTenantBySubdomain: (sub: string) => TenantConfig | undefined;
+}
+
+export const useTenantStore = create<TenantStoreState>()(
+    persist(
+        (set, get) => ({
+            tenants: MOCK_TENANTS,
+            addTenant: (t) => set(s => ({ tenants: [...s.tenants, t] })),
+            removeTenant: (id) => set(s => ({ tenants: s.tenants.filter(t => t.id !== id) })),
+            getTenantBySubdomain: (sub) => get().tenants.find(t => t.subdomain === sub),
+        }),
+        { name: 'loyalty-tenants' }
     )
 );

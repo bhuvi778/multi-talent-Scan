@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, Phone, Mail, MessageCircle, MapPin, Clock, ChevronRight, Send, CheckCircle } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 const FAQS = [
     { q: 'How do I earn points?', a: 'Scan product QR codes to earn loyalty points. Each product has a set number of points.' },
@@ -49,7 +49,7 @@ export default function ContactPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                     {[
                         { icon: <Phone size={22} color={NAVY} />, title: 'Call Us', sub: '1800-XXX-XXXX', bg: '#eef2ff', border: '#c7d2fe' },
-                        { icon: <Mail size={22} color="#059669" />, title: 'Email Us', sub: 'support@ozostars.in', bg: '#ecfdf5', border: '#a7f3d0' },
+                        { icon: <Mail size={22} color="#059669" />, title: 'Email Us', sub: 'support@avopay.in', bg: '#ecfdf5', border: '#a7f3d0' },
                         { icon: <MessageCircle size={22} color="#d97706" />, title: 'WhatsApp', sub: '+91 9XXXXXXXXX', bg: '#fffbeb', border: '#fcd34d' },
                         { icon: <Clock size={22} color="#6366f1" />, title: 'Hours', sub: 'Mon–Sat 9–6 PM', bg: '#f5f3ff', border: '#d8b4fe' },
                     ].map(({ icon, title, sub, bg, border }) => (

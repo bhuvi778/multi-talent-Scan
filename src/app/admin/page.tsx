@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useCashbackStore, MOCK_TENANTS } from '@/store';
+import { useCashbackStore, useTenantStore } from '@/store';
 import {
     LayoutDashboard, QrCode, Building2, Gift, Users, BarChart2,
     LogOut, Star, Clock, CheckCircle, XCircle, TrendingUp, DollarSign,
@@ -62,7 +62,7 @@ function Sidebar({ tab, setTab, setLoggedIn, open, onClose }:
                         <Star size={18} color="#fff" fill="#fff" />
                     </div>
                     <div>
-                        <p style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', margin: 0 }}>RewardsPro</p>
+                        <p style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', margin: 0 }}>AvoPay</p>
                         <p style={{ fontSize: 10, color: '#94a3b8', margin: 0 }}>Admin Panel</p>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ function Dashboard() {
     return (
         <div>
             <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>Dashboard Overview</h2>
-            <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 20px' }}>Welcome back, Admin. Here&apos;s what&apos;s happening today.</p>
+            <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 20px' }}>Welcome back, Admin. Here is what is happening today.</p>
 
             {/* Stats grid — 2 cols on mobile, 4 on desktop */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 24 }}>
@@ -307,25 +307,213 @@ function Analytics() {
 }
 
 /* ══════════════════════════════════════
+   TENANT LOGO — image with fallback
+══════════════════════════════════════ */
+function TenantLogo({ logoUrl, name, color, size = 48 }: { logoUrl?: string; name: string; color: string; size?: number }) {
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    if (logoUrl) {
+        return (
+            <img
+                src={logoUrl} alt={name}
+                style={{ width: size, height: size, borderRadius: size * 0.28, objectFit: 'cover', border: `2px solid ${color}22`, flexShrink: 0 }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+        );
+    }
+    return (
+        <div style={{ width: size, height: size, borderRadius: size * 0.28, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <span style={{ fontSize: size * 0.38, fontWeight: 900, color: '#fff', letterSpacing: '-1px' }}>{initials}</span>
+        </div>
+    );
+}
+
+/* ══════════════════════════════════════
    TENANTS
 ══════════════════════════════════════ */
 function Tenants() {
+    const { tenants, addTenant, removeTenant } = useTenantStore();
+    const [showForm, setShowForm] = useState(false);
+    const [form, setForm] = useState({
+        name: '', subdomain: '', logoUrl: '',
+        primaryColor: '#6366f1', pointsPerRupee: '10', minRedeemPoints: '500', cashbackRate: '100',
+    });
+    const [preview, setPreview] = useState('');
+    const [copied, setCopied] = useState<string | null>(null);
+
+    const handleCreate = () => {
+        if (!form.name.trim()) return;
+        const sub = form.subdomain || form.name.toLowerCase().replace(/\s+/g, '');
+        const newTenant = {
+            id: `tenant-${Date.now()}`,
+            name: form.name,
+            subdomain: sub,
+            logo: form.name[0] || '🏢',
+            logoUrl: form.logoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(form.name)}&background=${form.primaryColor.replace('#', '')}&color=fff&size=128&bold=true&font-size=0.4&rounded=true`,
+            primaryColor: form.primaryColor,
+            secondaryColor: '#94a3b8',
+            accentColor: '#10b981',
+            gradientFrom: form.primaryColor,
+            gradientTo: form.primaryColor,
+            features: { cashRedemption: true, whiteGoods: false, giftCards: true, electronics: false, beauty: false, holidays: false },
+            pointsPerRupee: Number(form.pointsPerRupee) || 10,
+            minRedeemPoints: Number(form.minRedeemPoints) || 500,
+            cashbackRate: Number(form.cashbackRate) || 100,
+        };
+        addTenant(newTenant);
+        setForm({ name: '', subdomain: '', logoUrl: '', primaryColor: '#6366f1', pointsPerRupee: '10', minRedeemPoints: '500', cashbackRate: '100' });
+        setPreview('');
+        setShowForm(false);
+    };
+
+    const copyLink = (sub: string) => {
+        const url = `${window.location.origin}/t/${sub}`;
+        navigator.clipboard.writeText(url).catch(() => { });
+        setCopied(sub);
+        setTimeout(() => setCopied(null), 2000);
+    };
+
+    const inp: React.CSSProperties = { width: '100%', padding: '10px 12px', background: '#f8fafc', border: '1.5px solid #e2e8f0', borderRadius: 10, fontSize: 13, outline: 'none', color: '#0f172a', fontFamily: 'inherit', boxSizing: 'border-box' };
+    const lbl: React.CSSProperties = { display: 'block', fontSize: 12, fontWeight: 700, color: '#475569', marginBottom: 5, letterSpacing: '0.03em' };
+
     return (
         <div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: '0 0 20px' }}>Tenant Management</h2>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>Tenant Management</h2>
+                <button onClick={() => setShowForm(v => !v)}
+                    style={{ padding: '8px 18px', background: INDIGO, border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    {showForm ? 'Cancel' : '+ New Tenant'}
+                </button>
+            </div>
+
+            {/* ── How subdomains work — info box ── */}
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 14, padding: '14px 16px', marginBottom: 20, display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 20 }}>🌐</span>
+                <div>
+                    <p style={{ fontSize: 13, fontWeight: 800, color: '#15803d', margin: '0 0 4px' }}>How Tenant URLs Work</p>
+                    <p style={{ fontSize: 12, color: '#166534', margin: '0 0 4px', lineHeight: 1.6 }}>
+                        <strong>Local (dev):</strong> <code style={{ background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>localhost:3000/t/[subdomain]</code><br />
+                        <strong>Production:</strong> <code style={{ background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>[subdomain].avopay.in</code>
+                    </p>
+                    <p style={{ fontSize: 11, color: '#4ade80', margin: 0 }}>Each tenant gets a fully branded login portal at their URL.</p>
+                </div>
+            </div>
+
+            {/* ── Create form ── */}
+            {showForm && (
+                <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: '20px', marginBottom: 20, boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
+                    <p style={{ fontSize: 15, fontWeight: 800, color: '#0f172a', margin: '0 0 16px' }}>Create New Tenant</p>
+
+                    {/* Logo preview + URL input */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16, background: '#f8fafc', borderRadius: 14, padding: '14px' }}>
+                        <div style={{ width: 72, height: 72, borderRadius: 20, overflow: 'hidden', border: '2px solid #e2e8f0', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            {preview ? (
+                                <img src={preview} alt="logo preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={() => setPreview('')} />
+                            ) : (
+                                <div style={{ width: '100%', height: '100%', background: form.primaryColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <span style={{ fontSize: 28, fontWeight: 900, color: '#fff' }}>{form.name?.[0]?.toUpperCase() || '?'}</span>
+                                </div>
+                            )}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <label style={lbl}>Logo Image URL</label>
+                            <input style={inp} placeholder="https://example.com/logo.png"
+                                value={form.logoUrl}
+                                onChange={e => { setForm(f => ({ ...f, logoUrl: e.target.value })); setPreview(e.target.value); }}
+                            />
+                            <p style={{ fontSize: 11, color: '#94a3b8', margin: '4px 0 0' }}>Leave blank to auto-generate from name.</p>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+                        <div>
+                            <label style={lbl}>Tenant Name *</label>
+                            <input style={inp} placeholder="e.g. Asian Paints"
+                                value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                        </div>
+                        <div>
+                            <label style={lbl}>Subdomain</label>
+                            <div style={{ position: 'relative' }}>
+                                <input style={{ ...inp, paddingRight: 80 }} placeholder="auto-filled"
+                                    value={form.subdomain} onChange={e => setForm(f => ({ ...f, subdomain: e.target.value }))} />
+                                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: '#94a3b8', pointerEvents: 'none' }}>.avopay.in</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label style={lbl}>Brand Color</label>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <input type="color" value={form.primaryColor}
+                                    onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))}
+                                    style={{ width: 40, height: 38, borderRadius: 8, border: '1px solid #e2e8f0', cursor: 'pointer', padding: 2 }} />
+                                <input style={{ ...inp, flex: 1 }} value={form.primaryColor}
+                                    onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} />
+                            </div>
+                        </div>
+                        <div>
+                            <label style={lbl}>Points per ₹1</label>
+                            <input style={inp} type="number" value={form.pointsPerRupee}
+                                onChange={e => setForm(f => ({ ...f, pointsPerRupee: e.target.value }))} />
+                        </div>
+                        <div>
+                            <label style={lbl}>Min Redeem Points</label>
+                            <input style={inp} type="number" value={form.minRedeemPoints}
+                                onChange={e => setForm(f => ({ ...f, minRedeemPoints: e.target.value }))} />
+                        </div>
+                        <div>
+                            <label style={lbl}>Cashback Rate</label>
+                            <input style={inp} type="number" value={form.cashbackRate}
+                                onChange={e => setForm(f => ({ ...f, cashbackRate: e.target.value }))} />
+                        </div>
+                    </div>
+
+                    {/* Preview URL */}
+                    {form.name && (
+                        <div style={{ background: '#eef2ff', borderRadius: 10, padding: '10px 14px', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span style={{ fontSize: 14 }}>🔗</span>
+                            <span style={{ fontSize: 12, color: INDIGO, fontWeight: 600 }}>
+                                Portal URL: <strong>localhost:3000/t/{form.subdomain || form.name.toLowerCase().replace(/\s+/g, '')}</strong>
+                            </span>
+                        </div>
+                    )}
+
+                    <button onClick={handleCreate}
+                        style={{ width: '100%', padding: '12px', background: INDIGO, border: 'none', borderRadius: 12, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', marginTop: 4 }}>
+                        Create Tenant
+                    </button>
+                </div>
+            )}
+
+            {/* ── Tenant cards ── */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {MOCK_TENANTS.map(t => (
+                {tenants.map(t => (
                     <div key={t.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: '20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                            <div style={{ width: 48, height: 48, background: INDIGO_LIGHT, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>{t.logo}</div>
-                            <div>
-                                <p style={{ fontWeight: 800, color: '#0f172a', fontSize: 15, margin: '0 0 2px' }}>{t.name}</p>
-                                <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>{t.subdomain}.rewardspro.com</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                            <TenantLogo logoUrl={t.logoUrl} name={t.name} color={t.primaryColor} size={52} />
+                            <div style={{ flex: 1 }}>
+                                <p style={{ fontWeight: 800, color: '#0f172a', fontSize: 15, margin: '0 0 4px' }}>{t.name}</p>
+                                {/* Clickable subdomain URL */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    <a href={`/t/${t.subdomain}`} target="_blank" rel="noopener noreferrer"
+                                        style={{ fontSize: 11, color: INDIGO, fontWeight: 600, textDecoration: 'none', background: '#eef2ff', padding: '3px 8px', borderRadius: 6, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                        🔗 /t/{t.subdomain}
+                                    </a>
+                                    <button onClick={() => copyLink(t.subdomain)}
+                                        style={{ fontSize: 10, padding: '3px 8px', background: copied === t.subdomain ? '#dcfce7' : '#f1f5f9', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, color: copied === t.subdomain ? '#15803d' : '#64748b', fontFamily: 'inherit' }}>
+                                        {copied === t.subdomain ? '✓ Copied!' : 'Copy'}
+                                    </button>
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }} />
+                                <button onClick={() => removeTenant(t.id)}
+                                    style={{ fontSize: 11, padding: '4px 10px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 7, cursor: 'pointer', color: '#dc2626', fontFamily: 'inherit', fontWeight: 600 }}>
+                                    Remove
+                                </button>
                             </div>
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
-                            {[['Pts/₹', t.pointsPerRupee], ['Min Redeem', `${t.minRedeemPoints} pts`], ['Cashback', `1:${t.cashbackRate}`]].map(([l, v]) => (
-                                <div key={String(l)} style={{ background: '#f8fafc', borderRadius: 10, padding: '10px 12px' }}>
+                            {([['Pts/₹', t.pointsPerRupee], ['Min Redeem', `${t.minRedeemPoints} pts`], ['Cashback', `1:${t.cashbackRate}`]] as [string, string | number][]).map(([l, v]) => (
+                                <div key={l} style={{ background: '#f8fafc', borderRadius: 10, padding: '10px 12px' }}>
                                     <p style={{ fontSize: 10, color: '#94a3b8', margin: '0 0 3px', fontWeight: 500 }}>{l}</p>
                                     <p style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', margin: 0 }}>{v}</p>
                                 </div>
@@ -337,6 +525,7 @@ function Tenants() {
         </div>
     );
 }
+
 
 /* ══════════════════════════════════════
    MAIN ADMIN PAGE
@@ -405,7 +594,7 @@ export default function AdminPage() {
                         </button>
                         <div>
                             <p style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: 0, textTransform: 'capitalize' }}>{tab.replace(/([A-Z])/g, ' $1')}</p>
-                            <p style={{ fontSize: 11, color: '#94a3b8', margin: 0 }}>RewardsPro Admin</p>
+                            <p style={{ fontSize: 11, color: '#94a3b8', margin: 0 }}>AvoPay Admin</p>
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

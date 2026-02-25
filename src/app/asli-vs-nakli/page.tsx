@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, QrCode, CheckCircle, XCircle, AlertTriangle, Search } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 type VerifyResult = 'genuine' | 'fake' | null;
 

@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store';
 import BottomNav from '@/components/BottomNav';
 import { ArrowLeft, SlidersHorizontal, Package, Truck, RotateCcw, CheckCircle, Clock } from 'lucide-react';
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 
 type OrderStatus = 'Ready to ship' | 'Order delivered' | 'Processing' | 'Cancelled';
 

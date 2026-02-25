@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OzoSTARS – Loyalty & Rewards",
-  description: "Scan QR codes, earn loyalty points, and redeem amazing rewards. India's leading loyalty platform by Ozone Overseas.",
+  title: "AvoPay – Loyalty & Rewards",
+  description: "Scan QR codes, earn loyalty points, and redeem amazing rewards. India's leading loyalty platform by AvoPay.",
 };
 
 export const viewport: Viewport = {

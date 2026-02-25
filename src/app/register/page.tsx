@@ -16,10 +16,10 @@ export default function RegisterPage() {
                     <div style={{ width: 38, height: 38, borderRadius: 11, background: INDIGO, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Star size={17} color="#fff" fill="#fff" />
                     </div>
-                    <span style={{ fontSize: 19, fontWeight: 900, color: INDIGO }}>OzoSTARS</span>
+                    <span style={{ fontSize: 19, fontWeight: 900, color: INDIGO }}>AvoPay</span>
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', margin: '0 0 6px', letterSpacing: '-0.5px' }}>Create Account</h2>
-                <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 28px' }}>Join OzoSTARS and start earning rewards</p>
+                <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 28px' }}>Join AvoPay and start earning rewards</p>
 
                 <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '14px 16px', marginBottom: 20, textAlign: 'center' }}>
                     <p style={{ fontSize: 13, color: '#166534', margin: 0, fontWeight: 500 }}>

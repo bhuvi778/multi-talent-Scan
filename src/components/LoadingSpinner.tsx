@@ -41,7 +41,7 @@ export function FullPageLoader({ message = 'Loading...' }: { message?: string })
                 >
                     <span style={{ fontSize: '32px' }}>🏆</span>
                 </div>
-                <h2 className="font-bold text-white text-xl mb-2">RewardsPro</h2>
+                <h2 className="font-bold text-white text-xl mb-2">AvoPay</h2>
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}>{message}</p>
                 <div
                     style={{

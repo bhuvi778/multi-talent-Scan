@@ -29,7 +29,7 @@ const MOCK_QR_RESULTS: ScanResult[] = [
     { productName: 'Dulux Weathershield 5L', brand: 'Dulux', cashback: 60, points: 280, qrCode: 'DX-004' },
 ];
 
-const NAVY = '#1c3f6e';
+const NAVY = '#6366f1';
 const GREEN = '#059669';
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -155,7 +155,7 @@ export default function ScanPage() {
     //  RENDER
     // ─────────────────────────────────────────────────────────────────────────
     return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0f172a 0%, #1c3f6e 100%)', fontFamily: "'Inter','Segoe UI',sans-serif", display: 'flex', flexDirection: 'column' }}>
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0f172a 0%, #6366f1 100%)', fontFamily: "'Inter','Segoe UI',sans-serif", display: 'flex', flexDirection: 'column' }}>
 
             {/* ── Header ── */}
             <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>

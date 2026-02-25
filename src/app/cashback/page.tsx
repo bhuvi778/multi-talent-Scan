@@ -16,7 +16,8 @@ const PRODUCTS: Record<string, Product> = {
     DEFAULT: { name: 'Branded Product', brand: 'Partner Brand', cashback: 75, points: 320, image: '📦' },
 };
 
-const INDIGO = '#4f46e5';
+const NAVY = '#6366f1';
+const INDIGO = NAVY; // Unified Navy theme throughout app
 
 export default function CashbackPage() {
     const router = useRouter();
@@ -500,5 +501,5 @@ function Spin() { return <div style={{ width: 17, height: 17, borderRadius: '50%
 const lbl: React.CSSProperties = { display: 'block', fontSize: 11, fontWeight: 700, color: '#475569', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 };
 const err: React.CSSProperties = { color: '#ef4444', fontSize: 12, margin: '4px 0 0', fontWeight: 500 };
 const inputSt: React.CSSProperties = { width: '100%', padding: '12px 14px', background: '#f8fafc', border: '1.5px solid #e2e8f0', borderRadius: 10, color: '#0f172a', fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s' };
-const primaryBtn = (loading: boolean): React.CSSProperties => ({ width: '100%', padding: '14px', background: loading ? '#f1f5f9' : INDIGO, border: 'none', borderRadius: 13, color: loading ? '#94a3b8' : '#fff', fontSize: 15, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading ? 'none' : '0 6px 20px rgba(79,70,229,0.3)' });
+const primaryBtn = (loading: boolean): React.CSSProperties => ({ width: '100%', padding: '14px', background: loading ? '#f1f5f9' : NAVY, border: 'none', borderRadius: 13, color: loading ? '#94a3b8' : '#fff', fontSize: 15, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading ? 'none' : '0 6px 20px rgba(99,102,241,0.3)' });
 const ghostBtn: React.CSSProperties = { width: '100%', padding: '12px', background: 'transparent', border: '1.5px solid #e2e8f0', borderRadius: 13, color: '#64748b', fontSize: 14, fontWeight: 600, cursor: 'pointer', marginTop: 8, fontFamily: 'inherit' };
