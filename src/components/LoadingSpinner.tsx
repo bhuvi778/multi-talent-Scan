@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 export default function LoadingSpinner({ size = 40 }: { size?: number }) {
     return (

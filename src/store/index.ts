@@ -1,4 +1,4 @@
-import { TenantConfig, User, CartItem, Transaction, QRScan } from '@/types';
+﻿import { TenantConfig, User, CartItem, Transaction, QRScan } from '@/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -7,7 +7,7 @@ export const MOCK_TENANTS: TenantConfig[] = [
     {
         id: 'tenant-001',
         name: 'AvoPay',
-        subdomain: 'avopay',
+        subdomain: 'AvoPay',
         logo: '⚡',
         logoUrl: 'https://ui-avatars.com/api/?name=AvoPay&background=6366f1&color=fff&size=128&bold=true&font-size=0.4&rounded=true',
         primaryColor: '#6366f1',

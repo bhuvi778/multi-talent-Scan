@@ -1,30 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * SUBDOMAIN ROUTING MIDDLEWARE
  *
  * HOW IT WORKS:
  * ─────────────
- * In PRODUCTION (avopay.in):
- *   loyalmart.avopay.in  →  internally routes to /t/loyalmart
- *   avopay.avopay.in     →  internally routes to /t/avopay
- *   admin.avopay.in      →  routes to /admin
- *   avopay.in (root)     →  routes to / (landing page)
+ * In PRODUCTION (AvoPay.in):
+ *   loyalmart.AvoPay.in  →  internally routes to /t/loyalmart
+ *   AvoPay.AvoPay.in     →  internally routes to /t/AvoPay
+ *   admin.AvoPay.in      →  routes to /admin
+ *   AvoPay.in (root)     →  routes to / (landing page)
  *
  * In LOCAL DEV (localhost:3000):
  *   Subdomains don't work by default, so use path-based routing instead:
  *   localhost:3000/t/loyalmart  →  same branded portal
- *   localhost:3000/t/avopay     →  same branded portal
+ *   localhost:3000/t/AvoPay     →  same branded portal
  *   localhost:3000/admin        →  admin panel
  *
  * PRODUCTION SETUP NEEDED:
  * ─────────────────────────
- * 1. Point *.avopay.in (wildcard DNS) to your server
+ * 1. Point *.AvoPay.in (wildcard DNS) to your server
  * 2. Deploy this Next.js app there
  * 3. The middleware will auto-handle all subdomain routing
  */
 
-const ROOT_DOMAIN = 'avopay.in';
+const ROOT_DOMAIN = 'AvoPay.in';
 const RESERVED_SUBDOMAINS = ['www', 'admin', 'app', 'api'];
 
 export function middleware(req: NextRequest) {
@@ -37,7 +37,7 @@ export function middleware(req: NextRequest) {
     }
 
     // Parse subdomain from host
-    // e.g. "loyalmart.avopay.in" → "loyalmart"
+    // e.g. "loyalmart.AvoPay.in" → "loyalmart"
     const hostWithoutPort = host.split(':')[0];
     const subdomain = hostWithoutPort.replace(`.${ROOT_DOMAIN}`, '');
 
@@ -52,7 +52,7 @@ export function middleware(req: NextRequest) {
     }
 
     // Tenant subdomain — rewrite to /t/[subdomain] internally
-    // The URL in the browser stays as "loyalmart.avopay.in"
+    // The URL in the browser stays as "loyalmart.AvoPay.in"
     // but Next.js serves /t/loyalmart
     url.pathname = `/t/${subdomain}${url.pathname === '/' ? '' : url.pathname}`;
     return NextResponse.rewrite(url);

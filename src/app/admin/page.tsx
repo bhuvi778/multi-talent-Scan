@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { useCashbackStore, useTenantStore } from '@/store';
 import {
@@ -392,7 +392,7 @@ function Tenants() {
                     <p style={{ fontSize: 13, fontWeight: 800, color: '#15803d', margin: '0 0 4px' }}>How Tenant URLs Work</p>
                     <p style={{ fontSize: 12, color: '#166534', margin: '0 0 4px', lineHeight: 1.6 }}>
                         <strong>Local (dev):</strong> <code style={{ background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>localhost:3000/t/[subdomain]</code><br />
-                        <strong>Production:</strong> <code style={{ background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>[subdomain].avopay.in</code>
+                        <strong>Production:</strong> <code style={{ background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>[subdomain].AvoPay.in</code>
                     </p>
                     <p style={{ fontSize: 11, color: '#4ade80', margin: 0 }}>Each tenant gets a fully branded login portal at their URL.</p>
                 </div>
@@ -436,7 +436,7 @@ function Tenants() {
                             <div style={{ position: 'relative' }}>
                                 <input style={{ ...inp, paddingRight: 80 }} placeholder="auto-filled"
                                     value={form.subdomain} onChange={e => setForm(f => ({ ...f, subdomain: e.target.value }))} />
-                                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: '#94a3b8', pointerEvents: 'none' }}>.avopay.in</span>
+                                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: '#94a3b8', pointerEvents: 'none' }}>.AvoPay.in</span>
                             </div>
                         </div>
                         <div>
