@@ -1,6 +1,6 @@
 ﻿'use client';
 import { useState } from 'react';
-import { useCashbackStore, useTenantStore } from '@/store';
+import { useCashbackStore, useTenantStore, MOCK_TENANTS } from '@/store';
 import {
     LayoutDashboard, QrCode, Building2, Gift, Users, BarChart2,
     LogOut, Star, Clock, CheckCircle, XCircle, TrendingUp, DollarSign,
