@@ -229,3 +229,54 @@ export const useTenantStore = create<TenantStoreState>()(
         { name: 'loyalty-tenants-v2' }
     )
 );
+
+// ===== LANGUAGE STORE =====
+export type Language = 'en' | 'hi';
+
+interface LangState {
+    lang: Language;
+    setLang: (l: Language) => void;
+}
+
+export const useLangStore = create<LangState>()(
+    persist(
+        (set) => ({
+            lang: 'en',
+            setLang: (lang) => set({ lang }),
+        }),
+        { name: 'loyalty-lang' }
+    )
+);
+
+// ===== TRANSLATIONS =====
+export const T: Record<Language, Record<string, string>> = {
+    en: {
+        home: 'Home', scan: 'Scan', redeem: 'Redeem', profile: 'Profile',
+        myMembership: 'My Membership', editProfile: 'Edit Profile', kyc: 'KYC Verification',
+        kycVerification: 'KYC Verification', name: 'Full Name', email: 'Email',
+        address: 'Address', city: 'City', state: 'State', pincode: 'Pincode',
+        dob: 'Date of Birth', gender: 'Gender', aadhaar: 'Aadhaar Number',
+        pan: 'PAN Number', upiId: 'UPI ID', save: 'Save Changes', submit: 'Submit',
+        cancel: 'Cancel', verified: 'Verified', pending: 'Pending', notStarted: 'Not Started',
+        points: 'Points', tier: 'Tier', signOut: 'Sign Out', language: 'Language',
+        getLocation: 'Get My Location', locationDetected: 'Location Detected',
+        male: 'Male', female: 'Female', other: 'Other',
+        kycDesc: 'Complete your KYC to unlock all features',
+        editProfileDesc: 'Update your personal details',
+    },
+    hi: {
+        home: 'होम', scan: 'स्कैन', redeem: 'रिडीम', profile: 'प्रोफाइल',
+        myMembership: 'मेरी सदस्यता', editProfile: 'प्रोफाइल संपादित करें', kyc: 'KYC सत्यापन',
+        kycVerification: 'KYC सत्यापन', name: 'पूरा नाम', email: 'ईमेल',
+        address: 'पता', city: 'शहर', state: 'राज्य', pincode: 'पिनकोड',
+        dob: 'जन्म तिथि', gender: 'लिंग', aadhaar: 'आधार नंबर',
+        pan: 'PAN नंबर', upiId: 'UPI ID', save: 'परिवर्तन सहेजें', submit: 'जमा करें',
+        cancel: 'रद्द करें', verified: 'सत्यापित', pending: 'लंबित', notStarted: 'शुरू नहीं',
+        points: 'पॉइंट्स', tier: 'स्तर', signOut: 'साइन आउट', language: 'भाषा',
+        getLocation: 'मेरी लोकेशन पाएं', locationDetected: 'लोकेशन मिल गई',
+        male: 'पुरुष', female: 'महिला', other: 'अन्य',
+        kycDesc: 'सभी सुविधाओं को अनलॉक करने के लिए KYC पूरा करें',
+        editProfileDesc: 'अपनी व्यक्तिगत जानकारी अपडेट करें',
+    },
+};
+

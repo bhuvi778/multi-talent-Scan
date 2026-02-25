@@ -28,10 +28,23 @@ export interface User {
   id: string;
   name: string;
   phone: string;
+  email?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
   aadhaar?: string;
   pan?: string;
+  dob?: string;
+  gender?: 'male' | 'female' | 'other';
   establishmentType?: string;
   upiId?: string;
+  profilePhoto?: string;
+  kycStatus?: 'not_started' | 'pending' | 'verified' | 'rejected';
+  kycSubmittedAt?: string;
+  latitude?: number;
+  longitude?: number;
+  geoAddress?: string;
   totalPoints: number;
   redeemablePoints: number;
   lifetimePoints: number;
@@ -39,6 +52,7 @@ export interface User {
   joinedAt: string;
   tenantId: string;
 }
+
 
 // ===== QR / TRANSACTION =====
 export interface QRScan {
