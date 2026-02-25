@@ -280,3 +280,28 @@ export const T: Record<Language, Record<string, string>> = {
     },
 };
 
+// ===== SUPERADMIN STORE =====
+interface SuperAdminState {
+    isLoggedIn: boolean;
+    email: string;
+    login: (email: string, password: string) => boolean;
+    logout: () => void;
+}
+
+export const useSuperAdminStore = create<SuperAdminState>()(
+    persist(
+        (set) => ({
+            isLoggedIn: false,
+            email: '',
+            login: (email, password) => {
+                if (email === 'admin@avopasy.com' && password === 'superadmin123') {
+                    set({ isLoggedIn: true, email });
+                    return true;
+                }
+                return false;
+            },
+            logout: () => set({ isLoggedIn: false, email: '' }),
+        }),
+        { name: 'loyalty-superadmin-v1' }
+    )
+);
